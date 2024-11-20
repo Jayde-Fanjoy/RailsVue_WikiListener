@@ -10,15 +10,11 @@
     <p>
         <div class="listener-control">
             <h1>Listener Control</h1>
-            
-            <p>
-            Debugging Stuff: #{ListenerState.first.running}, <%= debug($listener_running) %>
-            </p>
             <p id="listener-status">
                 Current Status: <%= $listener_running ? "Running" : "Stopped" %>
             </p>
             
-            <%= form_with url: $listener_running ? stop_listener_path : start_listener_path, method: :post, local: true, class: 'listener-form' do %>
+            <%= form_with url: $listener_running ? stop_listener_path : start_listener_path, method: :post, remote: true, id: "listener-form" do %>
                 <%= submit_tag $listener_running ? "Stop Listener" : "Start Listener", class: "btn #{$listener_running ? 'btn-danger' : 'btn-success'}" %>
             <% end %>
         </div>
