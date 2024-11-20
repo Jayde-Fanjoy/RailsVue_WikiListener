@@ -1,4 +1,5 @@
 class ApiController < ApplicationController
+  before_action :admin_only, only: [:start, :stop] # Optional: Restrict to admins
   @@listener_thread = nil
 
   def start_listener
@@ -6,7 +7,7 @@ class ApiController < ApplicationController
       render json: { status: 'Listener already running' }
     else
       @@listener_thread = Thread.new { WikiChangeListener.listen }
-      render json: { status: 'Listener started' }
+      render json: { status: 'JLF29 Listener started' }
     end
   end
 
@@ -18,4 +19,9 @@ class ApiController < ApplicationController
       render json: { status: 'No listener to stop' }
     end
   end
+
+  def admin_only
+    render json: { error: 'Not authorized' }, status: :unauthorized unless current_user.admin?
+  end
+
 end

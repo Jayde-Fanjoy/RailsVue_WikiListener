@@ -14,12 +14,12 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   #Rails.application.routes.draw do
-  #devise_for :users
   #  namespace :api do
-  #    get '/start_listener', to: 'listener#start'
-  #    get '/stop_listener', to: 'listener#stop'
+    post '/start_listener', to: 'listeners#start', as: :start_listener
+    post '/stop_listener', to: 'listeners#stop', as: :stop_listener
   #  end
   #end
+
 
   #Rails.application.routes.draw do
   #devise_for :users
