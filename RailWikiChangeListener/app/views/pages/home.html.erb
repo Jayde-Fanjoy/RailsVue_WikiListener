@@ -1,3 +1,4 @@
+<%= csrf_meta_tags %>
 <h1>Pages#home</h1>
 <p>Find me in app/views/pages/home.html.erb</p>
 
@@ -24,7 +25,7 @@
     <%= link_to "Lets see and activity Feed", activity_check_path %>
     </p>
     <p>
-    <%= link_to "Sign Out", destroy_user_session_path, 'data-turbo-method': :delete %>
+    <%= button_to "Logout", destroy_user_session_path, method: :delete, data: { turbo: false } %>
     </p>
 <% else %>
     <h2>Log in</h2>
