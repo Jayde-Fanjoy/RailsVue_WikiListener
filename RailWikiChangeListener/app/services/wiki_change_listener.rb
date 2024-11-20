@@ -19,8 +19,12 @@ class WikiChangeListener
   end
 
   def self.handle_event(event)
-    print(event['user'] + " made a change in " + event['title'] + " on " + event['server_name'] + ". (" + Time.at(event['timestamp']).strftime("%Y-%m-%d %H:%M:%S %Z") + ")" )
+    if !event['server_name'] || !event['user'] || !event['title'] || !event['bot'] || !event['timestamp']
+      return
+    end
 
+    print(event['user'] + " made a change in " + event['title'] + " on " + event['server_name'] + ". (" + Time.at(event['timestamp']).strftime("%Y-%m-%d %H:%M:%S %Z") + ")" )
+    
     # Store data in ScyllaDB
     WikiChange.add_event(
       id: UUIDTools::UUID.timestamp_create.to_s,

@@ -4,7 +4,6 @@ class ActivityController < ApplicationController
   @@cluster = Cassandra.cluster
   @@session = @@cluster.connect('wiki_changes')
 
-  #before_action :authenticate_user!
   def index
     @authors = Author.order("RANDOM()").limit(10) # 10 random authors
     @events = [] # Empty events initially
@@ -21,9 +20,6 @@ class ActivityController < ApplicationController
     end
 
     events = []
-
-    # Convert author_ids to a format compatible with ScyllaDB's IN clause
-    # placeholders = author_ids.map { "?" }.join(", ")
 
     author_ids.each do |author|
       query = <<-CQL
@@ -56,11 +52,4 @@ class ActivityController < ApplicationController
     events.sort_by! { |event| event[:timestamp] }
     render json: events
   end
-
-  #Old way of doing it
-  #def activity_feed
-  #  author_ids = params[:author_ids] || []
-  #  @events = Event.where(author_id: author_ids).order(created_at: :desc).limit(50) # Most recent events
-  #  render json: @events
-  #end
 end
