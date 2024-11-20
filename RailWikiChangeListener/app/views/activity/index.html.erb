@@ -1,4 +1,6 @@
 <meta name="csrf-token" content="<%= csrf_meta_tags %>">
+ <%= javascript_include_tag "controllers/activity", "data-turbo-track": "reload", crossorigin: "anonymous" %>
+
 <div class="activity-page">
   <div class="left-column">
     <h3>Authors</h3>
@@ -7,13 +9,11 @@
       <% @authors.each do |author| %>
         <li>
           <input type="checkbox" id="<%= author.name %>" class="author-checkbox" data-author-id="<%= author.id %>">
-          <%= javascript_include_tag "controllers/activity", "data-turbo-track": "reload", crossorigin: "anonymous" %>
           <label for="author-<%= author.id %>"><%= author.name %></label>
         </li>
       <% end %>
     </ul>
   </div>
-
   <div class="right-column">
     <h3>Activity Feed</h3>
     <ul id="activity-feed">

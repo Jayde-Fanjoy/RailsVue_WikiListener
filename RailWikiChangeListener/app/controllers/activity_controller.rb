@@ -1,6 +1,7 @@
 require 'cassandra'
 
 class ActivityController < ApplicationController
+  before_action :authenticate_user!
   @@cluster = Cassandra.cluster
   @@session = @@cluster.connect('wiki_changes')
 
@@ -49,7 +50,11 @@ class ActivityController < ApplicationController
       end
     end
     
-    events.sort_by! { |event| event[:timestamp] }
+    events.sort_by! { |event| -event[:timestamp] }
     render json: events
+  end
+
+  def authenticate_user!
+    redirect_to new_user_session_path, notice: 'Please sign in to access this page' unless user_signed_in?
   end
 end
