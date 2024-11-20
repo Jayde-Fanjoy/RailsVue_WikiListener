@@ -50,7 +50,7 @@ class ActivityController < ApplicationController
       end
     end
     
-    events.sort_by! { |event| event[:timestamp] }
+    events.sort_by { |event| -event[:timestamp] }
     render json: events
   end
 
