@@ -1,0 +1,47 @@
+<h1>Pages#home</h1>
+<p>Find me in app/views/pages/home.html.erb</p>
+
+<% if current_user %>
+    <p>Hello <%= current_user.email %>!</p>
+    <p>
+        You have successfully authenticated. You have [<%= current_user.role %>] access
+    </p>
+    <p>
+    <%= link_to "Sign Out", destroy_user_session_path, 'data-turbo-method': :delete %>
+    </p>
+<% else %>
+    <h2>Log in</h2>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div class="field">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    </div>
+
+    <div class="field">
+        <%= f.label :password %><br />
+        <%= f.password_field :password, autocomplete: "current-password" %>
+    </div>
+
+    <% if devise_mapping.rememberable? %>
+        <div class="field">
+        <%= f.check_box :remember_me %>
+        <%= f.label :remember_me %>
+        </div>
+    <% end %>
+
+    <div class="actions">
+        <%= f.submit "Log in", data: {turbo: false} %>
+    </div>
+    <% end %>
+    
+    <div class="alt-action">
+    <p><%= link_to "Forgot your password?", new_user_password_path %></p>
+    </div>
+    <div class="alt-action">
+        <p>Don't have an account? <%= link_to "Sign up!", new_user_registration_path %></p>
+    </div>
+
+    
+
+<% end %>
