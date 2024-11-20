@@ -1,0 +1,6 @@
+document.getElementById('listener-status').innerHTML = "Current Status: Stopped";
+document.getElementById('listener-form').outerHTML = `
+  <%= form_with url: start_listener_path, method: :post, remote: true, id: "listener-form" do %>
+    <%= submit_tag "Start Listener", class: "btn btn-success" %>
+  <% end %>
+`;
