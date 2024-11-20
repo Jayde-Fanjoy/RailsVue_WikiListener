@@ -11,21 +11,12 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  # Defines the root path route ("/")
-  # root "posts#index"
-  #Rails.application.routes.draw do
-  #  namespace :api do
-    post '/start_listener', to: 'listeners#start', as: :start_listener
-    post '/stop_listener', to: 'listeners#stop', as: :stop_listener
-  #  end
-  #end
+  # These are the command to start and stop the listener
+  post '/start_listener', to: 'listeners#start', as: :start_listener
+  post '/stop_listener', to: 'listeners#stop', as: :stop_listener
 
+  # These are the routes to show the activity of the authors
+  get 'activity', to: 'activity#index'
+  post 'activity_feed', to: 'activity#activity_feed'
 
-  #Rails.application.routes.draw do
-  #devise_for :users
-  #  namespace :api do
-  #    post 'start_listener', to: 'listener#start'
-  #    post 'stop_listener', to: 'listener#stop'
-  #  end
-  #end
 end

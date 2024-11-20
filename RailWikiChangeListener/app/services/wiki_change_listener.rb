@@ -33,6 +33,6 @@ class WikiChangeListener
 
     # Track unique servers and authors in PostgreSQL
     Server.find_or_create_by(name: event['server_name'])
-    Author.find_or_create_by(name: event['user'] + ", bot:" + (event['bot'] ? "true" : "false"))
+    Author.find_or_create_by(name: event['user'])
   end
 end
