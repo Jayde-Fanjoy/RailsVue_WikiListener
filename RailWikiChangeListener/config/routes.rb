@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   post '/stop_listener', to: 'listeners#stop', as: :stop_listener
 
   # These are the routes to show the activity of the authors
-  get 'activity', to: 'activity#index'
+  get 'activity', to: 'activity#index', as: :activity_check
   post 'activity_feed', to: 'activity#activity_feed'
 
 end
