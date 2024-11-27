@@ -1,8 +1,37 @@
 require 'cassandra'
 
 class WikiChange
-  @@cluster = Cassandra.cluster
-  @@session = @@cluster.connect('wiki_changes')
+  scylla_host = ENV.fetch('SCYLLA_HOST', '127.0.0.1')
+  scylla_port = ENV.fetch('SCYLLA_PORT', '9042')
+  @@cluster = Cassandra.cluster(hosts: [scylla_host], port: scylla_port.to_i)
+  @@session = @@cluster.connect #('wiki_changes')
+  
+
+  def self.checkIfExists
+    keyspace = 'wiki_changes'
+    table = 'recent_changes'
+
+    @@session.execute(<<-CQL)
+      CREATE KEYSPACE IF NOT EXISTS #{keyspace}
+        WITH replication = {
+          'class': 'SimpleStrategy',
+          'replication_factor': 1
+        }
+    CQL
+    @@session.execute("USE #{keyspace}")
+
+    @@session.execute(<<-CQL)
+      CREATE TABLE IF NOT EXISTS #{table} (
+        id TEXT,
+        server TEXT,
+        author TEXT,
+        bot BOOLEAN,
+        title TEXT,
+        timestamp TIMESTAMP,
+        PRIMARY KEY (author, timestamp, id)
+      )
+    CQL
+  end
 
   def self.recent_changes_by_authors(authors)
     authors_placeholder = authors.map { '?' }.join(',')
