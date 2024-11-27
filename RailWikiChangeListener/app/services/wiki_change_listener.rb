@@ -5,6 +5,7 @@ class WikiChangeListener
   STREAM_URL = 'https://stream.wikimedia.org/v2/stream/recentchange'
 
   def self.listen
+    WikiChange.checkIfExists
     HTTP.get(STREAM_URL).body.each do |line|
       next if line.strip.empty?
       # Only grab the data

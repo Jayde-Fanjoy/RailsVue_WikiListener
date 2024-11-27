@@ -1,0 +1,64 @@
+version: '3.9'
+services:
+  app:
+    build:
+      context: .
+      args:
+        SECRET_KEY_BASE: ${SECRET_KEY_BASE} # Pass the variable as a build argument
+    image: rails-wiki-change-listener-app
+    container_name: rails_app
+    depends_on:
+      - db
+      - scylla
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    environment:
+      RAILS_ENV: production
+      DATABASE_HOST: db
+      DATABASE_USERNAME: postgres
+      DATABASE_DATABASE: rail_wiki_change_listener_production
+      DATABASE_PORT: 5432
+      # DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: password
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE} # Use variable from .env file
+      SCYLLA_HOST: scylla
+      SCYLLA_PORT: 9042
+    env_file:
+      - .env
+    tty: true
+
+  db:
+    image: postgres:14
+    container_name: rails_db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: rails_development
+    ports:
+      - "5432:5432"
+
+  selenium:
+    image: selenium/standalone-chrome:latest
+    container_name: selenium
+    ports:
+      - "4444:4444"
+    environment:
+      SE_OPTS: "--headless --no-sandbox --disable-dev-shm-usage"
+    shm_size: "2g"
+
+  scylla:
+    image: scylladb/scylla:latest
+    ports:
+      - "9042:9042"
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+    command: --developer-mode 1 --memory=2G
+
+volumes:
+  db_data:

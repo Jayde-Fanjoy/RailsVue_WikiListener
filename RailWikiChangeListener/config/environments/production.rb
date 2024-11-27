@@ -3,6 +3,12 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # For Javascript files
+  config.assets.compile = true
+  config.assets.digest = true
+  config.serve_static_files = true # For Rails 5+
+  config.public_file_server.enabled = true # For Rails 6+
+
   # Code is not reloaded between requests.
   config.enable_reloading = false
 
@@ -25,10 +31,12 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
-  config.assume_ssl = true
+  config.assume_ssl = false # Obviously don't do this for a real app
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  config.force_ssl = false # Obviously don't do this for a real app
+
+  config.action_controller.forgery_protection_origin_check = false # Obviously don't do this for a real app
 
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
@@ -59,7 +67,7 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "example.com" }
+  config.action_mailer.default_url_options = { host: '127.0.0.1', port: 3000, protocol: 'http' }
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
   # config.action_mailer.smtp_settings = {

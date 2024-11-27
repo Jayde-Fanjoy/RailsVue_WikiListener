@@ -2,8 +2,35 @@ require 'cassandra'
 
 class ActivityController < ApplicationController
   before_action :authenticate_user!
-  @@cluster = Cassandra.cluster
-  @@session = @@cluster.connect('wiki_changes')
+
+  scylla_host = ENV.fetch('SCYLLA_HOST', '127.0.0.1')
+  scylla_port = ENV.fetch('SCYLLA_PORT', '9042')
+  @@cluster = Cassandra.cluster(hosts: [scylla_host], port: scylla_port.to_i)
+  @@session = @@cluster.connect #('wiki_changes')
+
+  def initialize
+    keyspace = 'wiki_changes'
+    table = 'recent_changes'
+
+    @@session.execute(<<-CQL)
+      CREATE KEYSPACE IF NOT EXISTS #{keyspace}
+        WITH replication = {
+          'class': 'SimpleStrategy',
+          'replication_factor': 1
+        }
+    CQL
+    @@session.execute("USE #{keyspace}")
+
+    @@session.execute(<<-CQL)
+      CREATE TABLE IF NOT EXISTS #{table} (
+        id UUID PRIMARY KEY,
+        user TEXT,
+        server_url TEXT,
+        bot BOOLEAN,
+        timestamp TIMESTAMP
+      )
+    CQL
+  end
 
   def index
     @authors = Author.order("RANDOM()").limit(10) # 10 random authors
