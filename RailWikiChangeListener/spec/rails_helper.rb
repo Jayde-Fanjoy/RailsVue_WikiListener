@@ -26,6 +26,7 @@ Capybara.register_driver :selenium_remote_chrome do |app|
   )
 end
 
+Capybara.server_port = 4444
 Capybara.javascript_driver = :selenium_remote_chrome
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
