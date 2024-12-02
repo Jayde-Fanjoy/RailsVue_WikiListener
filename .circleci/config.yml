@@ -20,8 +20,6 @@ jobs:
       - image: scylladb/scylla:latest
         command: --developer-mode 1 --smp 2 --memory=2G
       - image: selenium/standalone-chrome:latest
-        environment:
-          GRID_HUB_PORT: "9515"
     resource_class: medium
     working_directory: ~/project/RailWikiChangeListener
     environment:
@@ -43,6 +41,7 @@ jobs:
           command: |
             bundle exec rails db:create
             bundle exec rails db:migrate
+      - run: selenium-grid-start
       - run:
           name: Run Tests
           command: |
