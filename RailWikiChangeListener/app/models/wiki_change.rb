@@ -1,7 +1,7 @@
 require "cassandra"
 
 class WikiChange
-  scylla_host = ENV.fetch("SCYLLA_HOST", "127.0.0.1")
+  scylla_host = ENV.fetch("SCYLLA_HOST", "scylla")
   scylla_port = ENV.fetch("SCYLLA_PORT", "9042")
   @@cluster = Cassandra.cluster(hosts: [ scylla_host ], port: scylla_port.to_i)
   @@session = @@cluster.connect # ('wiki_changes')
