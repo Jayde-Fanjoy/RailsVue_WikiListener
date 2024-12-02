@@ -22,16 +22,28 @@ jobs:
     steps:
       - checkout:
           path: ~/project
-      - ruby/install-deps
+      - run:
+          name: Install Dependencies
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y nodejs yarn
+            bundle install
       - run:
           name: wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
-          name: Database setup
-          command: bundle exec rake db:test:prepare
+          name: Database Setup
+          command: |
+            bundle exec rails db:create
+            bundle exec rails db:migrate
       - run:
-          name: rspec test
-          command: bundle exec rspec
+          name: Run Tests
+          command: |
+            bundle exec rspec
+      - run:
+          name: Lint Code
+          command: |
+            bundle exec rubocop
   deploy:
     # This is an example deploy job, not actually used by the workflow
     docker:
