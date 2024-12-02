@@ -21,7 +21,7 @@ jobs:
         command: --developer-mode 1 --smp 2 --memory=2G
       - image: selenium/standalone-chrome:latest
         environment:
-          SE_OPTS: "--headless --no-sandbox --disable-dev-shm-usage"
+          SE_OPTS: "--headless --disable-gpu --no-sandbox --disable-dev-shm-usage --remote-debugging-port=9222"
     resource_class: medium
     working_directory: ~/project/RailWikiChangeListener
     environment:
