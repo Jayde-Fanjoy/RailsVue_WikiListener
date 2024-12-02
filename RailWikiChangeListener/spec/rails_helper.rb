@@ -18,12 +18,13 @@ Capybara.register_driver :selenium_remote_chrome do |app|
   options.add_argument('--disable-dev-shm-usage') # Prevent resource issues in CI
   options.add_argument('--remote-debugging-port=9222') # Debugging port
 
-  Capybara::Selenium::Driver.new(
+  driver = Capybara::Selenium::Driver.new(
     app,
     browser: :remote,
     url: 'http://localhost:4444/wd/hub', # Replace 'selenium' with your Docker service name or IP
     capabilities: options
   )
+  driver.port = 4444
 end
 
 Capybara.server_port = 4444
