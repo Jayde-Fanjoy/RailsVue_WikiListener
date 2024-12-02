@@ -22,7 +22,6 @@ jobs:
       - image: selenium/standalone-chrome:latest
         environment:
           SE_OPTS: "--headless --no-sandbox --disable-dev-shm-usage"
-        shm_size: "2g"
     resource_class: medium
     working_directory: ~/project/RailWikiChangeListener
     environment:
