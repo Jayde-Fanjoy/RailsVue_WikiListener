@@ -10,7 +10,7 @@ require 'rspec/rails'
 require 'capybara/rspec'
 require 'selenium/webdriver'
 
-Capybara.register_driver :selenium_chrome_headless do |app|
+Capybara.register_driver :selenium_remote_chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   options.add_argument('--headless') # Run headless
   options.add_argument('--disable-gpu') # Disable GPU acceleration
@@ -18,10 +18,15 @@ Capybara.register_driver :selenium_chrome_headless do |app|
   options.add_argument('--disable-dev-shm-usage') # Prevent resource issues in CI
   options.add_argument('--remote-debugging-port=9222') # Debugging port
 
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+  Capybara::Selenium::Driver.new(
+    app,
+    browser: :remote,
+    url: 'http://localhost:4444/wd/hub', # Replace 'selenium' with your Docker service name or IP
+    capabilities: options
+  )
 end
 
-Capybara.javascript_driver = :selenium_chrome_headless
+Capybara.javascript_driver = :selenium_remote_chrome
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
