@@ -20,8 +20,6 @@ jobs:
       - image: scylladb/scylla:latest
         command: --developer-mode 1 --smp 2 --memory=2G
       - image: selenium/standalone-chrome:latest
-        ports:
-          - "4444:4444"
         environment:
           SE_OPTS: "--headless --no-sandbox --disable-dev-shm-usage"
         shm_size: "2g"
