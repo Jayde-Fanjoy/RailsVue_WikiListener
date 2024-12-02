@@ -1,16 +1,16 @@
-require 'cassandra'
+require "cassandra"
 
 class ActivityController < ApplicationController
   before_action :authenticate_user!
 
-  scylla_host = ENV.fetch('SCYLLA_HOST', '127.0.0.1')
-  scylla_port = ENV.fetch('SCYLLA_PORT', '9042')
-  @@cluster = Cassandra.cluster(hosts: [scylla_host], port: scylla_port.to_i)
-  @@session = @@cluster.connect #('wiki_changes')
+  scylla_host = ENV.fetch("SCYLLA_HOST", "127.0.0.1")
+  scylla_port = ENV.fetch("SCYLLA_PORT", "9042")
+  @@cluster = Cassandra.cluster(hosts: [ scylla_host ], port: scylla_port.to_i)
+  @@session = @@cluster.connect # ('wiki_changes')
 
   def initialize
-    keyspace = 'wiki_changes'
-    table = 'recent_changes'
+    keyspace = "wiki_changes"
+    table = "recent_changes"
 
     @@session.execute(<<-CQL)
       CREATE KEYSPACE IF NOT EXISTS #{keyspace}
@@ -51,17 +51,17 @@ class ActivityController < ApplicationController
 
     author_ids.each do |author|
       query = <<-CQL
-        SELECT * 
-        FROM recent_changes 
-        WHERE author = ? 
-        ORDER BY timestamp DESC 
+        SELECT *#{' '}
+        FROM recent_changes#{' '}
+        WHERE author = ?#{' '}
+        ORDER BY timestamp DESC#{' '}
         LIMIT 50
       CQL
-  
-    # Execute the query with the ScyllaDB session
+
+      # Execute the query with the ScyllaDB session
       begin
         statement = @@session.prepare(query)
-        result = @@session.execute(statement, arguments: [author])
+        result = @@session.execute(statement, arguments: [ author ])
         result.each do |row|
           events << {
             id: row["id"],
@@ -69,19 +69,19 @@ class ActivityController < ApplicationController
             author: row["author"],
             title: row["title"],
             bot: row["bot"],
-            timestamp: row["timestamp"].strftime("%Y-%m-%d %H:%M:%S %Z"),
+            timestamp: row["timestamp"].strftime("%Y-%m-%d %H:%M:%S %Z")
           }
         end
       rescue StandardError => e
         logger.error "Error querying ScyllaDB: #{e.message}"
       end
     end
-    
+
     events.sort_by! { |event| -event[:timestamp] }
     render json: events
   end
 
   def authenticate_user!
-    redirect_to new_user_session_path, notice: 'Please sign in to access this page' unless user_signed_in?
+    redirect_to new_user_session_path, notice: "Please sign in to access this page" unless user_signed_in?
   end
 end

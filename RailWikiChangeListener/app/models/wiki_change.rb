@@ -1,15 +1,15 @@
-require 'cassandra'
+require "cassandra"
 
 class WikiChange
-  scylla_host = ENV.fetch('SCYLLA_HOST', '127.0.0.1')
-  scylla_port = ENV.fetch('SCYLLA_PORT', '9042')
-  @@cluster = Cassandra.cluster(hosts: [scylla_host], port: scylla_port.to_i)
-  @@session = @@cluster.connect #('wiki_changes')
-  
+  scylla_host = ENV.fetch("SCYLLA_HOST", "127.0.0.1")
+  scylla_port = ENV.fetch("SCYLLA_PORT", "9042")
+  @@cluster = Cassandra.cluster(hosts: [ scylla_host ], port: scylla_port.to_i)
+  @@session = @@cluster.connect # ('wiki_changes')
+
 
   def self.checkIfExists
-    keyspace = 'wiki_changes'
-    table = 'recent_changes'
+    keyspace = "wiki_changes"
+    table = "recent_changes"
 
     @@session.execute(<<-CQL)
       CREATE KEYSPACE IF NOT EXISTS #{keyspace}
@@ -34,7 +34,7 @@ class WikiChange
   end
 
   def self.recent_changes_by_authors(authors)
-    authors_placeholder = authors.map { '?' }.join(',')
+    authors_placeholder = authors.map { "?" }.join(",")
     statement = @@session.prepare(
       "SELECT * FROM recent_changes WHERE author IN (#{authors_placeholder}) ORDER BY timestamp DESC LIMIT 100"
     )
@@ -51,7 +51,7 @@ class WikiChange
     begin
       # Use a prepared statement for better performance and security
       statement = @@session.prepare(query)
-      @@session.execute(statement, arguments: [id, server, author, title, bot, timestamp])
+      @@session.execute(statement, arguments: [ id, server, author, title, bot, timestamp ])
       puts "Event added successfully!"
     rescue Cassandra::Errors::NoHostsAvailable => e
       puts "Failed to connect to ScyllaDB: #{e.message}"
@@ -59,5 +59,4 @@ class WikiChange
       puts "An error occurred: #{e.message}"
     end
   end
-
 end

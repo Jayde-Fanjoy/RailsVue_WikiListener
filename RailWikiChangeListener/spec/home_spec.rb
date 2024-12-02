@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'User is an admin', type: :system do
   before do
     @user = User.create(
-      email: 'test@example.com', 
+      email: 'test@example.com',
       password: 'password123',
       password_confirmation: 'password123',
       role: :admin # Adjust depending on how roles are defined
@@ -29,7 +29,7 @@ end
 RSpec.describe 'User is a user', type: :system do
   before do
     @user2 = User.create!(
-      email: 'test2@example.com', 
+      email: 'test2@example.com',
       password: 'password123',
       password_confirmation: 'password123',
       role: :user # Adjust depending on how roles are defined
