@@ -21,11 +21,10 @@ jobs:
         command: --developer-mode 1 --smp 2 --memory=2G
       - image: selenium/hub:latest
         name: selenium-hub
-        environment:
-          SE_EVENT_BUS_HOST: https://events.circleci.com
       - image: selenium/node-chrome:latest
         environment:
           HUB_HOST: selenium-hub
+          SE_EVENT_BUS_HOST: localhost
     resource_class: medium
     working_directory: ~/project/RailWikiChangeListener
     environment:
