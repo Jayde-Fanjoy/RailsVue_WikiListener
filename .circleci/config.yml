@@ -48,7 +48,6 @@ jobs:
           command: |
             bundle exec rails db:create
             bundle exec rails db:migrate
-      - run: selenium-grid-start
       - run:
           name: Run Tests
           command: |
