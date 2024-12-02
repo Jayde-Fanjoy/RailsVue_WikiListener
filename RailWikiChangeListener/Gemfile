@@ -66,10 +66,9 @@ group :development, :test do
   gem "rspec-rails", "~> 6.1.0"
 end
 
-gem 'http', '~> 5.1' # For handling HTTP connections
-gem 'cassandra-driver' # For ScyllaDB
+gem "http", "~> 5.1" # For handling HTTP connections
+gem "cassandra-driver" # For ScyllaDB
 
-gem 'sorted_set' # FOR adding stuff to DB needs this
-gem 'uuidtools' # For add UUID to ScyllaDB
+gem "sorted_set" # FOR adding stuff to DB needs this
+gem "uuidtools" # For add UUID to ScyllaDB
 gem "devise" # For adding users to the project
-

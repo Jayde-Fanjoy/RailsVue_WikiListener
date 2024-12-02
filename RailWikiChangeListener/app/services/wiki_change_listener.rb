@@ -1,8 +1,8 @@
-require 'http'
-require 'uuidtools'
+require "http"
+require "uuidtools"
 
 class WikiChangeListener
-  STREAM_URL = 'https://stream.wikimedia.org/v2/stream/recentchange'
+  STREAM_URL = "https://stream.wikimedia.org/v2/stream/recentchange"
 
   def self.listen
     WikiChange.checkIfExists
@@ -20,24 +20,24 @@ class WikiChangeListener
   end
 
   def self.handle_event(event)
-    if !event['server_name'] || !event['user'] || !event['title'] || !event['bot'] || !event['timestamp']
+    if !event["server_name"] || !event["user"] || !event["title"] || !event["bot"] || !event["timestamp"]
       return
     end
 
-    print(event['user'] + " made a change in " + event['title'] + " on " + event['server_name'] + ". (" + Time.at(event['timestamp']).strftime("%Y-%m-%d %H:%M:%S %Z") + ")" )
-    
+    print(event["user"] + " made a change in " + event["title"] + " on " + event["server_name"] + ". (" + Time.at(event["timestamp"]).strftime("%Y-%m-%d %H:%M:%S %Z") + ")")
+
     # Store data in ScyllaDB
     WikiChange.add_event(
       id: UUIDTools::UUID.timestamp_create.to_s,
-      server: event['server_name'],
-      author: event['user'],
-      title: event['title'],
-      bot: event['bot'],
-      timestamp: Time.at(event['timestamp'])
+      server: event["server_name"],
+      author: event["user"],
+      title: event["title"],
+      bot: event["bot"],
+      timestamp: Time.at(event["timestamp"])
     )
 
     # Track unique servers and authors in PostgreSQL
-    Server.find_or_create_by(name: event['server_name'])
-    Author.find_or_create_by(name: event['user'])
+    Server.find_or_create_by(name: event["server_name"])
+    Author.find_or_create_by(name: event["user"])
   end
 end
