@@ -60,6 +60,8 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem "chromedriver-helper", "~> 1.0"
+  gem "rspec_junit_formatter"  # Preparing proper output for CircleCI test metadata
 end
 
 group :development, :test do

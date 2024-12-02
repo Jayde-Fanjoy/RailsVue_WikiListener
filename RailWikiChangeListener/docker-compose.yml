@@ -16,7 +16,7 @@ services:
       - .:/app
     environment:
       RAILS_ENV: production
-      DATABASE_HOST: db
+      DATABASE_HOST: postgres
       DATABASE_USERNAME: postgres
       DATABASE_DATABASE: rail_wiki_change_listener_production
       DATABASE_PORT: 5432
@@ -47,8 +47,9 @@ services:
     ports:
       - "4444:4444"
     environment:
-      SE_OPTS: "--headless --no-sandbox --disable-dev-shm-usage"
+      SE_OPTS: "--no-sandbox --disable-dev-shm-usage"
     shm_size: "2g"
+    command: -headless
 
   scylla:
     image: scylladb/scylla:latest
