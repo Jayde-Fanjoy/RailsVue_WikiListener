@@ -25,6 +25,8 @@ jobs:
         environment:
           HUB_HOST: selenium-hub
           SE_EVENT_BUS_HOST: localhost
+          SE_EVENT_BUS_PUBLISH_PORT: 14442
+          SE_EVENT_BUS_SUBSCRIBE_PORT: 14443
     resource_class: medium
     working_directory: ~/project/RailWikiChangeListener
     environment:
