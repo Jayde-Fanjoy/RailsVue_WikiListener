@@ -19,6 +19,12 @@ jobs:
           POSTGRES_DB: rail_wiki_change_listener_test
       - image: scylladb/scylla:latest
         command: --developer-mode 1 --smp 2 --memory=2G
+      - image: selenium/standalone-chrome:latest
+        ports:
+          - "4444:4444"
+        environment:
+          SE_OPTS: "--headless --no-sandbox --disable-dev-shm-usage"
+        shm_size: "2g"
     resource_class: medium
     working_directory: ~/project/RailWikiChangeListener
     environment:
@@ -32,6 +38,17 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y nodejs yarn
             bundle install
+      - run:
+          name: Install Chrome and Chromedriver
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y google-chrome-stable
+            CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+            CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+            wget -N "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
+            unzip chromedriver_linux64.zip -d /usr/local/bin/
+            rm chromedriver_linux64.zip
+            chmod +x /usr/local/bin/chromedriver
       - run:
           name: wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
