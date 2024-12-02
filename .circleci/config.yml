@@ -22,7 +22,7 @@ jobs:
       - image: selenium/hub:latest
         name: selenium-hub
         environment:
-          SE_EVENT_BUS_HOST: localhost
+          SE_EVENT_BUS_HOST: https://events.circleci.com
       - image: selenium/node-chrome:latest
         environment:
           HUB_HOST: selenium-hub
