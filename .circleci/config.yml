@@ -17,7 +17,7 @@ jobs:
       - image: circleci/postgres:9.5-alpine
         environment:
           POSTGRES_DB: rail_wiki_change_listener_test
-      - image: scylladb/scylla:6.1.3
+      - image: scylladb/scylla:latest
         command: --developer-mode 1 --smp 2 --memory=2G
     resource_class: large
     working_directory: ~/project/RailWikiChangeListener

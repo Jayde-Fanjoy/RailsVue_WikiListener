@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'User is an admin', type: :system do
   before do
+    driven_by :rack_test 
     @user = User.create(
       email: 'test@example.com',
       password: 'password123',
@@ -28,6 +29,7 @@ end
 
 RSpec.describe 'User is a user', type: :system do
   before do
+    driven_by :rack_test 
     @user2 = User.create!(
       email: 'test2@example.com',
       password: 'password123',
