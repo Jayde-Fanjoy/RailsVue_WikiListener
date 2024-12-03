@@ -18,7 +18,6 @@ jobs:
         environment:
           POSTGRES_DB: rail_wiki_change_listener_test
       - image: scylladb/scylla:latest
-        command: --developer-mode 1
     resource_class: large
     working_directory: ~/project/RailWikiChangeListener
     environment:
