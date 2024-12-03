@@ -9,8 +9,8 @@ jobs:
     docker:
       - image: cimg/ruby:3.2-node
         environment:
-          # POSTGRES_HOST: localhost #Not needed, will delete
-          # POSTGRES_USER: postgres
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
           # POSTGRES_PASSWORD: password
           SCYLLA_HOST: localhost
           SCYLLA_PORT: 9042
