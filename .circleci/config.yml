@@ -3,7 +3,6 @@
 version: 2.1
 orbs:
   ruby: circleci/ruby@2.0.1
-  lambda-tunnel: lambdatest/lambda-tunnel@1.0.5
 jobs:
   test-ruby:
     # Install gems, run rspec tests
