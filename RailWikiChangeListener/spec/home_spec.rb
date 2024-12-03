@@ -12,7 +12,7 @@ RSpec.describe 'User is an admin', type: :system do
     )
   end
 
-  it 'visits the landing page' do
+  scenario 'visits the landing page after logging in' do
     # Sign in the user
     visit new_user_session_path
     fill_in 'Email', with: @user.email
