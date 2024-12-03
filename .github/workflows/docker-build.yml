@@ -24,7 +24,7 @@ jobs:
 
     # Build the Docker image
     - name: Build Docker Image
-      run: docker build . -t ghcr.io/jayde-fanjoy/railsvuewikilistener:latest
+      run: docker build ./RailWikiChangeListener/ -t ghcr.io/jayde-fanjoy/railsvuewikilistener:latest
 
     # Push the Docker image to GitHub Container Registry
     - name: Push Docker Image
