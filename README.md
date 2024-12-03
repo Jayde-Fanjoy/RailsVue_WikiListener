@@ -1,24 +1,15 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Welcome, This is more to setup for a simple CI/CD to show how I would set it up. The docker image is a simple rails app that listens to wiki changes and a user who logs into it can get the feed of random users who mades changes to a wiki.
 
-Things you may want to cover:
+CI:
+When a PR is made, Circle CI will run and it will check to see if the tests pass and if the lint succeeds. You should be unable to merge a PR if this is the case. 
 
-* Ruby version
+CD:
+Whenever a push is made to the main branch, git action will kick off and then create and deploy the docker image to GitHub Container Registry. 
 
-* System dependencies
+Deployment:
 
-* Configuration
+I've save the image for easy configuration. To log in as an admin and to use the Listener device, use the following email: admin@domain.com and the password: password. 
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+As an admin you can start the listener which should recent the recent wikipedia changes and store that information into a 

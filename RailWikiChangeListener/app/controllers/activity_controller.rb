@@ -22,12 +22,14 @@ class ActivityController < ApplicationController
     @@session.execute("USE #{keyspace}")
 
     @@session.execute(<<-CQL)
-      CREATE TABLE IF NOT EXISTS #{table} (
-        id UUID PRIMARY KEY,
-        user TEXT,
-        server_url TEXT,
+        CREATE TABLE IF NOT EXISTS #{table} (
+        id TEXT,
+        server TEXT,
+        author TEXT,
         bot BOOLEAN,
-        timestamp TIMESTAMP
+        title TEXT,
+        timestamp TIMESTAMP,
+        PRIMARY KEY (author, timestamp, id)
       )
     CQL
   end
