@@ -19,8 +19,7 @@ jobs:
           POSTGRES_DB: rail_wiki_change_listener_test
       - image: scylladb/scylla:latest
         command: --developer-mode 1 --smp 2 --memory=2G
-      - image: selenium/standalone-chrome:3.11.0
-    resource_class: medium+
+    resource_class: medium
     working_directory: ~/project/RailWikiChangeListener
     environment:
       RAILS_ENV: test
