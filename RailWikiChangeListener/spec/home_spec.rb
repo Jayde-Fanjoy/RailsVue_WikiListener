@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'User is an admin', type: :system do
   before do
+    driven_by :rack_test
     @user = User.create(
       email: 'test@example.com',
       password: 'password123',
@@ -12,7 +13,7 @@ RSpec.describe 'User is an admin', type: :system do
     )
   end
 
-  it 'visits the landing page' do
+  scenario 'visits the landing page after logging in' do
     # Sign in the user
     visit new_user_session_path
     fill_in 'Email', with: @user.email
@@ -28,6 +29,7 @@ end
 
 RSpec.describe 'User is a user', type: :system do
   before do
+    driven_by :rack_test
     @user2 = User.create!(
       email: 'test2@example.com',
       password: 'password123',
