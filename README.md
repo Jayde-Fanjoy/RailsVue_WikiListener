@@ -2,6 +2,8 @@
 
 Welcome, This is more to setup for a simple CI/CD to show how I would set it up. The docker image is a simple rails app that listens to wiki changes and a user who logs into it can get the feed of random users who mades changes to a wiki.
 
+(Fun learning lesson: Always name your docker deployment repos in lower case)
+
 CI:
 When a PR is made, Circle CI will run and it will check to see if the tests pass and if the lint succeeds. You should be unable to merge a PR if this is the case.
 
