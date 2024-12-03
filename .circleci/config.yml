@@ -1,0 +1,67 @@
+# This config was automatically generated from your source code
+# Stacks detected: deps:ruby:RailWikiChangeListener
+version: 2.1
+orbs:
+  ruby: circleci/ruby@2.0.1
+  lambda-tunnel: lambdatest/lambda-tunnel@1.0.5
+jobs:
+  test-ruby:
+    # Install gems, run rspec tests
+    docker:
+      - image: cimg/ruby:3.2-node
+        environment:
+          # POSTGRES_HOST: localhost #Not needed, will delete
+          # POSTGRES_USER: postgres
+          # POSTGRES_PASSWORD: password
+          SCYLLA_HOST: localhost
+          SCYLLA_PORT: 9042
+      - image: circleci/postgres:9.5-alpine
+        environment:
+          POSTGRES_DB: rail_wiki_change_listener_test
+      - image: scylladb/scylla:latest
+        command: --developer-mode 1 --smp 2 --memory=2G
+    resource_class: medium
+    working_directory: ~/project/RailWikiChangeListener
+    environment:
+      RAILS_ENV: test
+    steps:
+      - checkout:
+          path: ~/project
+      - run:
+          name: Install Dependencies
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y nodejs yarn
+            bundle install
+      - run:
+          name: wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Database Setup
+          command: |
+            bundle exec rails db:create
+            bundle exec rails db:migrate
+      - run:
+          name: Run Tests
+          command: |
+            bundle exec rspec
+      - run:
+          name: Lint Code
+          command: |
+            bundle exec rubocop
+  deploy:
+    # This is an example deploy job, not actually used by the workflow
+    docker:
+      - image: cimg/base:stable
+    steps:
+      # Replace this with steps to deploy to users
+      - run:
+          name: deploy
+          command: '#e.g. ./deploy.sh'
+workflows:
+  build-and-test:
+    jobs:
+      - test-ruby
+    # - deploy:
+    #     requires:
+    #       - test-ruby
