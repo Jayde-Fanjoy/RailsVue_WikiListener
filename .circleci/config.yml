@@ -33,15 +33,6 @@ jobs:
             sudo apt-get install -y nodejs yarn
             bundle install
       - run:
-          name: Create Docker Network
-          command: docker network ls
-      - run:
-          name: Install Selenium Hub
-          command: docker run -d --rm -p 4444:4444 --net host --name selenium-hub selenium/hub:3.11.0
-      - run:
-          name: Install Selenium node
-          command: docker run -d --rm --net host -e HUB_HOST=selenium-hub -v /dev/shm:/dev/shm selenium/node-chrome:3.11.0
-      - run:
           name: wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
