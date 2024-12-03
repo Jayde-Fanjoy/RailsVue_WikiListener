@@ -39,10 +39,10 @@ jobs:
           command: docker network ls
       - run:
           name: Install Selenium Hub
-          command: docker run -d --rm -p 4444:4444 --net bridge --name selenium-hub selenium/hub:3.11.0
+          command: docker run -d --rm -p 4444:4444 --net host --name selenium-hub selenium/hub:3.11.0
       - run:
           name: Install Selenium node
-          command: docker run -d --rm --net bridge -e HUB_HOST=selenium-hub -v /dev/shm:/dev/shm selenium/node-chrome:3.11.0
+          command: docker run -d --rm --net host -e HUB_HOST=selenium-hub -v /dev/shm:/dev/shm selenium/node-chrome:3.11.0
       - run:
           name: wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
