@@ -36,7 +36,7 @@ jobs:
             bundle install
       - run:
           name: Create Docker Network
-          command: docker network create grid
+          command: docker network ls
       - run:
           name: Install Selenium Hub
           command: docker run -d --rm -p 4444:4444 --net grid --name selenium-hub selenium/hub:3.11.0
