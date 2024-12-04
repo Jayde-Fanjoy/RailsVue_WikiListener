@@ -7,5 +7,9 @@ until rails db:prepare; do
   sleep 5
 done
 
+# Run migrations and seeds
+bundle exec rails db:migrate
+bundle exec rails db:seed
+
 # Start the Rails server
 exec "$@"

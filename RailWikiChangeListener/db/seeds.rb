@@ -8,3 +8,11 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 ListenerState.create(running: false) unless ListenerState.exists?
+
+User.find_or_create_by!(email: "admin@domain.com") do |user|
+  user.password = "password"
+  user.password_confirmation = "password"
+  user.role = :admin
+end
+
+puts "Default admin user created with email: admin@domain.com and password: password"
