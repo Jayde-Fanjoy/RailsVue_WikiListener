@@ -1,0 +1,32 @@
+services:
+  rails_app:
+    image: ghcr.io/jayde-fanjoy/railsvuewikilistener:latest
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: production
+      DATABASE_HOST: rails_db
+      DATABASE_USERNAME: postgres
+      DATABASE_DATABASE: rail_wiki_change_listener_production
+      DATABASE_PORT: 5432
+      DATABASE_PASSWORD: password
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE} # Use variable from .env file
+      SCYLLA_HOST: scylla
+      SCYLLA_PORT: 9042
+    depends_on:
+      - rails_db
+      - scylla
+
+  rails_db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: rail_wiki_change_listener_production
+    ports:
+      - "5432:5432"
+
+  scylla:
+    image: scylladb/scylla:latest
+    ports:
+      - "9042:9042"

@@ -5,10 +5,10 @@ class ActivityController < ApplicationController
 
   scylla_host = ENV.fetch("SCYLLA_HOST", "127.0.0.1")
   scylla_port = ENV.fetch("SCYLLA_PORT", "9042")
-  @@cluster = Cassandra.cluster(hosts: [ scylla_host ], port: scylla_port.to_i)
-  @@session = @@cluster.connect # ('wiki_changes')
 
   def initialize
+    @@cluster = Cassandra.cluster(hosts: [ scylla_host ], port: scylla_port.to_i)
+    @@session = @@cluster.connect # ('wiki_changes')
     keyspace = "wiki_changes"
     table = "recent_changes"
 
