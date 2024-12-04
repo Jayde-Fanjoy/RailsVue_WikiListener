@@ -8,8 +8,8 @@ SECRET_KEY_BASE="<A secret key, like from rails secret>"
 ```
 
 2. Run the following command:
-```
-curl -O https://github.com/Jayde-Fanjoy/railsvuewikilistener/docker-compose.yml && docker compose up
+ ```
+curl -O https://raw.githubusercontent.com/Jayde-Fanjoy/railsvuewikilistener/refs/heads/main/docker-compose.yml && docker compose up
 ```
 
 3. When the rails app is loaded go to 127.0.0.1:3000
