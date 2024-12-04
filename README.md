@@ -1,4 +1,20 @@
 # README
+Quick Start:
+Pre-req: You need to have docker & docker compsed installed
+
+1. Create an .env file in the directory you want to run the docker that has something like this:
+```
+SECRET_KEY_BASE="<A secret key, like from rails secret>"
+```
+
+2. Run the following command:
+```
+curl -O https://github.com/Jayde-Fanjoy/railsvuewikilistener/docker-compose.yml && docker compose up
+```
+
+3. When the rails app is loaded go to 127.0.0.1:3000
+
+4. Login with the following admin credentials: admin@domain.com and password: password
 
 Welcome, This is more to setup for a simple CI/CD to show how I would set it up. The docker image is a simple rails app that listens to wiki changes and a user who logs into it can get the feed of random users who mades changes to a wiki.
 
