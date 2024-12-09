@@ -1,6 +1,6 @@
 # README
 Quick Start:
-Pre-req: You need to have docker & docker compsed installed
+Pre-req: You need to have docker & docker composed installed
 
 1. Create an .env file in the directory you want to run the docker that has something like this:
 ```
@@ -9,7 +9,7 @@ SECRET_KEY_BASE="<A secret key, like from rails secret>"
 
 2. Run the following command:
  ```
-curl -O https://raw.githubusercontent.com/Jayde-Fanjoy/railsvuewikilistener/refs/heads/main/docker-compose.yml && docker compose up
+curl -O https://raw.githubusercontent.com/Jayde-Fanjoy/railsvuewikilistener/refs/heads/main/docker-compose.yml && docker compose up --build
 ```
 
 3. When the rails app is loaded go to 127.0.0.1:3000
@@ -27,4 +27,4 @@ CD:
 Whenever a push is made to the main branch, git action will kick off and then create and deploy the docker image to GitHub Container Registry. 
 
 Deployment:
-I've save the image for easy configuration. To log in as an admin and to use the Listener device, use the following email: admin@domain.com and the password: password. As an admin you can start the listener which should recent the recent wikipedia changes and store that information into a Scylla DB.
+I've save the image for easy configuration. To log in as an admin and to use the Listener device, use the following email: admin@domain.com and the password: password. As an admin you can start the listener which should recent the recent Wikipedia changes and store that information into a Scylla DB.
