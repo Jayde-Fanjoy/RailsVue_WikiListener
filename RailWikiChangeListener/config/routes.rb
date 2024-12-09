@@ -17,5 +17,5 @@ Rails.application.routes.draw do
 
   # These are the routes to show the activity of the authors
   get "activity", to: "activity#index", as: :activity_check
-  post "activity_feed", to: "activity#activity_feed"
+  post "activity_feed", to: "activity#activity_feed", defaults: { format: :json }
 end

@@ -16,6 +16,12 @@ curl -O https://raw.githubusercontent.com/Jayde-Fanjoy/railsvuewikilistener/refs
 
 4. Login with the following admin credentials: admin@domain.com and password: password
 
+5. Start the listener and let it run for a few moments. This will populate the activity feed.
+
+6. Goto your activity feed. You should see 10 checkboxes with names of auther beside them.
+
+7. Click on a checkbox and the feed should populate in chronological order.
+
 Welcome, This is more to setup for a simple CI/CD to show how I would set it up. The docker image is a simple rails app that listens to wiki changes and a user who logs into it can get the feed of random users who mades changes to a wiki.
 
 (Fun learning lesson: Always name your docker deployment repos in lower case)
