@@ -8,8 +8,8 @@ services:
     image: rails-wiki-change-listener-app
     container_name: rails_app
     depends_on:
-      - db
-      - scylla
+      scylla:
+        condition: service_healthy
     ports:
       - "3000:3000"
     volumes:

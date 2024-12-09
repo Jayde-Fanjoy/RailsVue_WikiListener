@@ -14,9 +14,8 @@ services:
       SCYLLA_HOST: scylla
       SCYLLA_PORT: 9042
     depends_on:
-      - rails_db
-      - scylla
-
+      scylla:
+        condition: service_healthy
   rails_db:
     image: postgres:14
     environment:
@@ -30,3 +29,8 @@ services:
     image: scylladb/scylla:latest
     ports:
       - "9042:9042"
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
