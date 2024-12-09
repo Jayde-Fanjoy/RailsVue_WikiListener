@@ -3,6 +3,8 @@ require "cassandra"
 class ActivityController < ApplicationController
   before_action :authenticate_user!
 
+  protect_from_forgery unless: -> { request.format.json? }
+
   @scylla_host = ENV.fetch("SCYLLA_HOST", "127.0.0.1")
   @scylla_port = ENV.fetch("SCYLLA_PORT", "9042")
 
@@ -39,6 +41,7 @@ class ActivityController < ApplicationController
   end
 
   def activity_feed
+
     author_ids = params[:author_ids] || []
     logger.debug "Query Started"
 
