@@ -41,7 +41,6 @@ class ActivityController < ApplicationController
   end
 
   def activity_feed
-
     author_ids = params[:author_ids] || []
     logger.debug "Query Started"
 
